@@ -1,10 +1,14 @@
 use std::fs::read_to_string;
 
-fn parse_input(input: &str) -> Vec<String> {
+fn parse_input(input: &str) -> Vec<Vec<u32>> {
     read_to_string(input)
         .unwrap()
         .lines()
-        .map(String::from)
+        .map(|line| {
+            line.split_whitespace()
+                .map(|num| num.parse::<u32>().unwrap())
+                .collect()
+        })
         .collect()
 }
 
@@ -34,36 +38,19 @@ fn is_safe_with_dampner(levels: &[u32]) -> bool {
     false
 }
 
-fn part1(reports: &[String]) -> usize {
-    reports
-        .into_iter()
-        .filter(|report| {
-            let levels: Vec<u32> = report
-                .split_whitespace()
-                .map(|num| num.parse::<u32>().unwrap())
-                .collect();
-
-            is_safe(&levels)
-        })
-        .count()
+fn part1(reports: &[Vec<u32>]) -> usize {
+    reports.into_iter().filter(|report| is_safe(report)).count()
 }
 
-fn part2(reports: Vec<String>) -> usize {
+fn part2(reports: &[Vec<u32>]) -> usize {
     reports
         .into_iter()
-        .filter(|report| {
-            let levels: Vec<u32> = report
-                .split_whitespace()
-                .map(|num| num.parse::<u32>().unwrap())
-                .collect();
-
-            is_safe_with_dampner(&levels)
-        })
+        .filter(|report| is_safe_with_dampner(report))
         .count()
 }
 
 fn main() {
-    let records: Vec<String> = parse_input("src/input");
+    let records: Vec<Vec<u32>> = parse_input("src/input");
     println!("{:?}", part1(&records));
-    println!("{:?}", part2(records));
+    println!("{:?}", part2(&records));
 }
