@@ -37,7 +37,7 @@ fn part2(left_list: Vec<i32>, right_list: Vec<i32>) -> i32 {
 }
 
 fn main() {
-    let (mut left_list, mut right_list) = parse_input("./src/day01/input");
+    let (mut left_list, mut right_list) = parse_input("./src/input");
 
     left_list.sort();
     right_list.sort();
