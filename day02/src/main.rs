@@ -9,6 +9,7 @@ fn parse_input(input: &str) -> Vec<String> {
 }
 
 fn is_safe(levels: &[u32]) -> bool {
+    // Either descending OR ascending
     levels
         .windows(2)
         .all(|num| num[0] > num[1] && (num[0] - num[1] <= 3))
@@ -42,7 +43,6 @@ fn part1(reports: &[String]) -> usize {
                 .map(|num| num.parse::<u32>().unwrap())
                 .collect();
 
-            // Either descending or ascending
             is_safe(&levels)
         })
         .count()
