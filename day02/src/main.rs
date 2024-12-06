@@ -17,6 +17,22 @@ fn is_safe(levels: &[u32]) -> bool {
             .all(|num| num[0] < num[1] && (num[1] - num[0] <= 3))
 }
 
+fn is_safe_with_dampner(levels: &[u32]) -> bool {
+    if is_safe(&levels) {
+        return true;
+    }
+
+    for i in 0..levels.len() {
+        let mut levels_vector = levels.to_vec();
+        levels_vector.remove(i);
+        if is_safe(&levels_vector) {
+            return true;
+        }
+    }
+
+    false
+}
+
 fn part1(reports: &[String]) -> usize {
     reports
         .into_iter()
@@ -41,18 +57,7 @@ fn part2(reports: Vec<String>) -> usize {
                 .map(|num| num.parse::<u32>().unwrap())
                 .collect();
 
-            if !(is_safe(&levels)) {
-                for i in 0..levels.len() {
-                    let mut levels_vector = levels.to_vec();
-                    levels_vector.remove(i);
-                    if is_safe(&levels_vector) {
-                        return true;
-                    }
-                }
-                false
-            } else {
-                true
-            }
+            is_safe_with_dampner(&levels)
         })
         .count()
 }
